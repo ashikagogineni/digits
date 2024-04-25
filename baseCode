@@ -51,8 +51,41 @@ public class DigitsGame {
     }
 
     // Method to evaluate user expression
-    private static int evaluateExpression(String expression) {
-        // 
+    private int evaluateExpression(int[] numbers) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Read the expression from the user
+        System.out.println("Enter your expression (e.g., 0 + 1 * 2):");
+        String expression = scanner.nextLine();
+
+        scanner.close();
+
+        // Parse and evaluate the expression
+        String[] tokens = expression.split("\\s+");
+        int result = numbers[Integer.parseInt(tokens[0])];
+
+        for (int i = 1; i < tokens.length; i += 2) {
+            String operator = tokens[i];
+            int operandIndex = Integer.parseInt(tokens[i + 1]);
+
+            // Apply the operator to the current result and operand
+            if (operator.equals("+")) {
+                result += numbers[operandIndex];
+            } else if (operator.equals("-")) {
+                result -= numbers[operandIndex];
+            } else if (operator.equals("*")) {
+                result *= numbers[operandIndex];
+            } else if (operator.equals("/")) {
+                if (numbers[operandIndex] == 0) {
+                    throw new ArithmeticException("Division by zero!");
+                }
+                result /= numbers[operandIndex];
+            } else {
+                throw new IllegalArgumentException("Invalid operator: " + operator);
+            }
+        }
+
+        return result;
     }
 
     // Method to convert an array to string for display
