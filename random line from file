@@ -1,0 +1,57 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Random;
+
+public class RandomLineArraySelector {
+
+    public static void main(String[] args) {
+        String filePath = "your_file_path_here.txt"; // Replace with your file path
+        try {
+            String[] randomArray = getRandomArrayFromFile(filePath);
+            int target = getTargetValue(filePath, randomArray);
+            System.out.println("Random Array: " + arrayToString(randomArray));
+            System.out.println("Target: " + target);
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    public static String[] getRandomArrayFromFile(String filePath) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(filePath));
+        if (lines.isEmpty()) {
+            throw new IOException("File is empty");
+        }
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(lines.size());
+        String randomLine = lines.get(randomIndex);
+
+        // Extract digits from the random line
+        String[] parts = randomLine.split(" ");
+        String digitsSection = parts[1];
+        String[] digits = digitsSection.split(",");
+
+        return digits;
+    }
+
+    public static int getTargetValue(String filePath, String[] digits) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(filePath));
+        if (lines.isEmpty()) {
+            throw new IOException("File is empty");
+        }
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(lines.size());
+        String randomLine = lines.get(randomIndex);
+
+        // Extract target from the random line
+        String[] parts = randomLine.split(" ");
+        String targetSection = parts[3];
+
+        // Remove "target:" prefix
+        String targetValue = targetSection.substring("target:".length()).trim();
+
+        return Integer.parseInt(targetValue);
+    }
