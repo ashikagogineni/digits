@@ -6,6 +6,9 @@ import java.awt.event.*;
 public class DigitsGUI extends JFrame implements ActionListener {
 	
 	JLabel text1 = new JLabel("Combine these numbers to hit the target: ");
+	// display target number
+	
+	// create 6 buttons with the 6 numbers
 	
 	public DigitsGUI() {
 		super();
