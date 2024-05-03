@@ -1,57 +1,34 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Random;
+public ArrayList<int[]> processFile(String filename) {
+        ArrayList<int[]> arrays = new ArrayList<int[]>();
 
-public class RandomLineArraySelector {
-
-    public static void main(String[] args) {
-        String filePath = "your_file_path_here.txt"; // Replace with your file path
         try {
-            String[] randomArray = getRandomArrayFromFile(filePath);
-            int target = getTargetValue(filePath, randomArray);
-            System.out.println("Random Array: " + arrayToString(randomArray));
-            System.out.println("Target: " + target);
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
-    }
+            // Create a Scanner to read from the file
+            Scanner scanner = new Scanner(new File(filename));
 
-    public static String[] getRandomArrayFromFile(String filePath) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(filePath));
-        if (lines.isEmpty()) {
-            throw new IOException("File is empty");
-        }
+            // Process each line until the end of the file
+            while (scanner.hasNextLine()) {
+                // Read one line from the file
+                String line = scanner.nextLine();
 
-        Random random = new Random();
-        int randomIndex = random.nextInt(lines.size());
-        String randomLine = lines.get(randomIndex);
+                // Split the line into individual components
+                String[] components = line.split(",");
 
-        // Extract digits from the random line
-        String[] parts = randomLine.split(" ");
-        String digitsSection = parts[1];
-        String[] digits = digitsSection.split(",");
+                // Convert components to integers and store in an array
+                int[] values = new int[components.length];
+                for (int i = 0; i < components.length; i++) {
+                    values[i] = Integer.parseInt(components[i].trim());
+                }
 
-        return digits;
-    }
+                // Add the array to the collection
+                arrays.add(values);
+            }
 
-    public static int getTargetValue(String filePath, String[] digits) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(filePath));
-        if (lines.isEmpty()) {
-            throw new IOException("File is empty");
+            // Close the scanner
+            scanner.close();
+            
+        } catch (Exception e) {
+           return null;
         }
 
-        Random random = new Random();
-        int randomIndex = random.nextInt(lines.size());
-        String randomLine = lines.get(randomIndex);
-
-        // Extract target from the random line
-        String[] parts = randomLine.split(" ");
-        String targetSection = parts[3];
-
-        // Remove "target:" prefix
-        String targetValue = targetSection.substring("target:".length()).trim();
-
-        return Integer.parseInt(targetValue);
+        return arrays;
     }
