@@ -1,0 +1,23 @@
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class DigitsGUI extends JFrame implements ActionListener {
+	
+	JLabel text1 = new JLabel("Combine these numbers to hit the target: ");
+	
+	public DigitsGUI() {
+		super();
+	}
+
+	public void actionPerformed(ActionEvent evt) {
+		
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
