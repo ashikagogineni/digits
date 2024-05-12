@@ -1,102 +1,165 @@
-import java.util.Random;
+package digits;
+
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DigitsGame {
-    private static final int NUM_COUNT = 6;
-    private static final int TARGET_MIN = 1; // Minimum target number
-    private static final int TARGET_MAX = 100; // Maximum target number
+	private int[] sixDigits;
+	private int target;
+	private ArrayList<Integer> temp = new ArrayList<Integer>();
+	
+	public DigitsGame(ArrayList<int[]> arr) {
+		int[] allNums = arr.get((int)(Math.random()*arr.size()));
+		sixDigits = new int[6];
+		target = allNums[6];
+		for(int i = 0; i<6; i++) {
+			sixDigits[i] = allNums[i];
+			temp.add(sixDigits[i]);
+		}
+	}
+	
+	public void refresh() {
+		for(int i = temp.size()-1; i>=0; i--) {
+			temp.remove(i);
+		}
+		for(int i = 0; i<sixDigits.length; i++) {
+			temp.add(sixDigits[i]);
+		}
+	}
+	
+	public String listToString(ArrayList<Integer> arr) {
+		String s = "";
+		for(int n: arr) {
+			s+= n +", ";
+		}
+		return s.substring(0, s.length()-2);
+	}
+	
+	public void playGame() {
+		Scanner scan = new Scanner(System.in);
+	    System.out.println("Welcome to digits! \nUse the digits provided (" + listToString(temp) + ") to get to the target number " + target + "!");
+	    int attempt = parseExpression();
+	    
+	    while (attempt != target) {
+	    	if(attempt == -1) {
+	    		refresh();
+	    		System.out.println("Resetting or your expression returned an invalid (negative or not an integer) value. Try again.");
+	    	}else {
+	    		temp.add(attempt);
+	    	}
+	    	System.out.println("Board: (" + listToString(temp) + ") Target value: " + target);
+			attempt = parseExpression();
+	    }
+	    System.out.println("TARGET NUMBER REACHED!");
+	    System.out.println("YAY! You did it! 8P!");
+	}
 
-    public static void main(String[] args) {
-        // Generate random numbers
-        int[] numbers = generateRandomNumbers(NUM_COUNT);
 
-        // Generate target number
-        int target = generateTargetNumber(TARGET_MIN, TARGET_MAX);
+	
+	public int parseExpression() {
+		Scanner scan = new Scanner(System.in);
+		boolean valid = false;
+		boolean valid2 = false;
+		int secondNum = 0;
+		String symbol = "";
+		
+		System.out.println("Enter first digit (" + listToString(temp) + ") or -1 to reset:");
+		int firstNum = scan.nextInt();
+		if(firstNum == -1) {
+			return -1;
+		}
+		
+		for(int i = 0; i<temp.size(); i++) {
+			if(temp.get(i) == firstNum) {
+				valid = true;
+				temp.remove(i);
+				break;
+			}
+		}
+		if(valid){
+			System.out.println("Enter symbol (+,-,*,/): ");
+			symbol = scan.next();
+			if(!symbol.equals("+") && !symbol.equals("-") && !symbol.equals("*") && !symbol.equals("/")) {
+				System.out.println("Enter VALID symbol (+,-,*,/): ");
+				symbol = scan.next();
+			}
+			System.out.println("Enter second digit (" + listToString(temp) + ") :");
+			secondNum = scan.nextInt();
+			for(int i = 0; i<temp.size(); i++) {
+				if(temp.get(i) == secondNum) {
+					valid2 = true;
+					temp.remove(i);
+					break;
+				}
+			}
+			if(!valid2) {
+				System.out.println("Enter VALID second digit (" + listToString(temp) + ") :");
+				secondNum = scan.nextInt();
+			}
+		}
+		else {
+			System.out.println("Enter VALID first digit (" + listToString(temp) + ") :");
+			firstNum = scan.nextInt();
+		}
+		
+	    
+	    if (symbol.equals("+")) {
+	        return firstNum + secondNum;
+	    } else if (symbol.equals("-")) {
+	        if (firstNum < secondNum) {
+	        	return -1; // Marking as invalid
+	        } else {
+	        	return firstNum - secondNum;
+	        }
+	    } else if (symbol.equals("*")) {
+	    	return firstNum * secondNum;
+	    } else if (symbol.equals("/") && firstNum % secondNum == 0 && secondNum != 0) {
+	    	return firstNum / secondNum;
+	    } 
+	    return -1;
+	}
 
-        // Display game information
-        System.out.println("Welcome to Digits!");
-        System.out.println("Your numbers: " + arrayToString(numbers));
-        System.out.println("Target number: " + target);
+	
+	public static ArrayList<int[]> processFile(String filename) {
+        ArrayList<int[]> arrays = new ArrayList<int[]>();
 
-        // Accept user input
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your expression (e.g., 1 + 2 * 3):");
-        String expression = scanner.nextLine();
+        try {
+            // Create a Scanner to read from the file
+            Scanner scanner = new Scanner(new File(filename));
 
-        // Evaluate user expression
-        int result = evaluateExpression(expression);
+            // Process each line until the end of the file
+            while (scanner.hasNextLine()) {
+                // Read one line from the file
+                String line = scanner.nextLine();
 
-        // Check if user reached the target
-        if (result == target) {
-            System.out.println("Congratulations! You reached the target number.");
-        } else {
-            System.out.println("Sorry, you did not reach the target number. Try again!");
-        }
-    }
+                // Split the line into individual components
+                String[] components = line.split(",");
 
-    // Method to generate random numbers
-    private static int[] generateRandomNumbers(int count) {
-        int[] numbers = new int[count];
-        Random random = new Random();
-        for (int i = 0; i < count; i++) {
-            numbers[i] = random.nextInt(10); // Change 10 to adjust the range of random numbers
-        }
-        return numbers;
-    }
-
-    // Method to generate a random target number within a given range
-    private static int generateTargetNumber(int min, int max) {
-        Random random = new Random();
-        return random.nextInt(max - min + 1) + min;
-    }
-
-    // Method to evaluate user expression
-    private int evaluateExpression(int[] numbers) {
-        Scanner scanner = new Scanner(System.in);
-
-        // Read the expression from the user
-        System.out.println("Enter your expression (e.g., 0 + 1 * 2):");
-        String expression = scanner.nextLine();
-
-        scanner.close();
-
-        // Parse and evaluate the expression
-        String[] tokens = expression.split("\\s+");
-        int result = numbers[Integer.parseInt(tokens[0])];
-
-        for (int i = 1; i < tokens.length; i += 2) {
-            String operator = tokens[i];
-            int operandIndex = Integer.parseInt(tokens[i + 1]);
-
-            // Apply the operator to the current result and operand
-            if (operator.equals("+")) {
-                result += numbers[operandIndex];
-            } else if (operator.equals("-")) {
-                result -= numbers[operandIndex];
-            } else if (operator.equals("*")) {
-                result *= numbers[operandIndex];
-            } else if (operator.equals("/")) {
-                if (numbers[operandIndex] == 0) {
-                    throw new ArithmeticException("Division by zero!");
+                // Convert components to integers and store in an array
+                int[] values = new int[components.length];
+                for (int i = 0; i < components.length; i++) {
+                    values[i] = Integer.parseInt(components[i].trim());
                 }
-                result /= numbers[operandIndex];
-            } else {
-                throw new IllegalArgumentException("Invalid operator: " + operator);
+
+                // Add the array to the collection
+                arrays.add(values);
+          
             }
+
+            // Close the scanner
+            scanner.close();
+            
+        } catch (Exception e) {
+           return null;
         }
 
-        return result;
+        return arrays;
     }
-
-    // Method to convert an array to string for display
-    private static String arrayToString(int[] array) {
-    String result = "";
-    for (int i = 0; i < array.length; i++) {
-        result += array[i];
-        if (i < array.length - 1) {
-            result += ", ";
-        }
-    }
-    return result;
-  }
+	
+	public static void main(String[] args) {
+		ArrayList<int[]> arr = processFile("digits archive");
+		DigitsGame d = new DigitsGame(arr);
+		d.playGame();
+	}
 }
