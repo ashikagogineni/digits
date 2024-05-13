@@ -1,0 +1,47 @@
+public class DigitsDriver{
+  /**
+	 * Helper method that processes a file and returns it in an ArrayList of int arrays
+	 * @param filename - name of file processed
+	 * @return ArrayList of int arrays
+	 */
+	public static ArrayList<int[]> processFile(String filename) {
+        ArrayList<int[]> arrays = new ArrayList<int[]>();
+
+        try {
+            // Create a Scanner to read from the file
+            Scanner scanner = new Scanner(new File(filename));
+
+            // Process each line until the end of the file
+            while (scanner.hasNextLine()) {
+                // Read one line from the file
+                String line = scanner.nextLine();
+
+                // Split the line into individual components
+                String[] components = line.split(",");
+
+                // Convert components to integers and store in an array
+                int[] values = new int[components.length];
+                for (int i = 0; i < components.length; i++) {
+                    values[i] = Integer.parseInt(components[i].trim());
+                }
+
+                // Add the array to the collection
+                arrays.add(values);
+            }
+
+            // Close the scanner
+            scanner.close();
+            
+        } catch (Exception e) {
+           return null;
+        }
+
+        return arrays;
+    }
+	
+	public static void main(String[] args) {
+		JFrame test = new DigitsGUI();
+		test.setSize(300,250);
+		test.setVisible(true);
+	}
+}
