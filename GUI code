@@ -295,13 +295,15 @@ public class DigitsGUI extends JFrame implements ActionListener {
 	 * Method that resets the board
 	 */
 	public void reset() {
-		target = randomCombo[6];
-		for (int i = 0; i < 6; i++) {
-			sixDigits[i] = randomCombo[i];
-		}
+		number1.setText(sixDigits[0] + "");
+		number2.setText(sixDigits[1] + "");
+		number3.setText(sixDigits[2] + "");
+		number4.setText(sixDigits[3] + "");
+		number5.setText(sixDigits[4] + "");
+		number6.setText(sixDigits[5] + "");
 		num1 = 0;
 		num2 = 0;
-		buttonsPressed = 0;
+		buttonsPressed = -1;
 	}
 	
 	/**
