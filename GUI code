@@ -41,23 +41,23 @@ public class DigitsGUI extends JFrame implements ActionListener {
 		number1.addActionListener(this);
 		
 		number2 = new JButton("" + sixDigits[1]);
-		number1.setActionCommand("second");
+		number2.setActionCommand("second");
 		number2.addActionListener(this);
 		
 		number3 = new JButton("" + sixDigits[2]);
-		number1.setActionCommand("third");
+		number3.setActionCommand("third");
 		number3.addActionListener(this);
 		
 		number4 = new JButton("" + sixDigits[3]);
-		number1.setActionCommand("fourth");
+		number4.setActionCommand("fourth");
 		number4.addActionListener(this);
 		
 		number5 = new JButton("" + sixDigits[4]);
-		number1.setActionCommand("fifth");
+		number5.setActionCommand("fifth");
 		number5.addActionListener(this);
 		
 		number6 = new JButton("" + sixDigits[5]);
-		number1.setActionCommand("sixth");
+		number6.setActionCommand("sixth");
 		number6.addActionListener(this);
 		
 		add = new JButton("+");
@@ -301,6 +301,7 @@ public class DigitsGUI extends JFrame implements ActionListener {
 		}
 		num1 = 0;
 		num2 = 0;
+		buttonsPressed = 0;
 	}
 	
 	/**
