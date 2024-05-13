@@ -2,21 +2,265 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+import java.io.*;
 
 public class DigitsGUI extends JFrame implements ActionListener {
 	
-	JLabel text1 = new JLabel("Combine these numbers to hit the target: ");
+	private JLabel text1 = new JLabel("Combine these numbers to hit the target: ");
 	// display target number
+	private JLabel targetNum;
+	private JPanel topPanel;
 	
 	// create 6 buttons with the 6 numbers
+	private JButton number1, number2, number3, number4, number5, number6;
+	private JButton add, subtract, multiply, divide;
+	private JPanel numberPanel;
+	private JPanel operationPanel;
+	private JPanel bottomPanel;
+	
+	private JButton resetButton;
+	
+	private int[] randomCombo;
+	private int[] sixDigits;
+	private int target;
+	
+	private int num1, num2; // 2 selected buttons that need to be added/subtracted/multiplied/divided
+	private String operation; // button pressed to determine operation for the numbers
+	private int buttonsPressed = 0; // variable used to store the numbers of buttons pressed, the calculation happens when 3 are pressed
+	private JButton firstSelectedNumber, secondSelectedNumber; // keep track of which buttons were pressed so their values can be changed
 	
 	public DigitsGUI() {
 		super();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new FlowLayout());
+		initializeNumbers();
+		
+		targetNum = new JLabel(target + "");
+		number1 = new JButton("" + sixDigits[0]);
+		number1.setActionCommand("first");
+		number1.addActionListener(this);
+		
+		number2 = new JButton("" + sixDigits[1]);
+		number1.setActionCommand("second");
+		number2.addActionListener(this);
+		
+		number3 = new JButton("" + sixDigits[2]);
+		number1.setActionCommand("third");
+		number3.addActionListener(this);
+		
+		number4 = new JButton("" + sixDigits[3]);
+		number1.setActionCommand("fourth");
+		number4.addActionListener(this);
+		
+		number5 = new JButton("" + sixDigits[4]);
+		number1.setActionCommand("fifth");
+		number5.addActionListener(this);
+		
+		number6 = new JButton("" + sixDigits[5]);
+		number1.setActionCommand("sixth");
+		number6.addActionListener(this);
+		
+		add = new JButton("+");
+		add.setActionCommand("add");
+		add.addActionListener(this);
+		
+		subtract = new JButton("-");
+		subtract.setActionCommand("subtract");
+		subtract.addActionListener(this);
+		
+		multiply = new JButton("x");
+		multiply.setActionCommand("multiply");
+		multiply.addActionListener(this);
+		
+		divide = new JButton("/");
+		divide.setActionCommand("divide");
+		divide.addActionListener(this);
+		
+		resetButton = new JButton("Reset");
+		resetButton.setActionCommand("reset");
+		resetButton.addActionListener(this);
+		
+		topPanel = new JPanel();
+		topPanel.add(text1);
+		topPanel.add(targetNum);
+		
+		numberPanel = new JPanel();
+		numberPanel.add(number1);
+		numberPanel.add(number2);
+		numberPanel.add(number3);
+		numberPanel.add(number4);
+		numberPanel.add(number5);
+		numberPanel.add(number6);
+		
+		operationPanel.add(add);
+		operationPanel.add(subtract);
+		operationPanel.add(multiply);
+		operationPanel.add(divide);
+		operationPanel.add(resetButton);
+		
+		bottomPanel = new JPanel();
+		bottomPanel.add(numberPanel);
+		bottomPanel.add(operationPanel);
+		
+		add(topPanel);
+		add(bottomPanel);
 	}
 
 	public void actionPerformed(ActionEvent evt) {
-		
+		if (evt.getActionCommand().equals("reset")) {
+			reset();
+		}
+		buttonsPressed++;
+		if (buttonsPressed == 1) {
+			if (evt.getActionCommand().equals("first")) {
+				num1 = Integer.parseInt(number1.getText());
+				firstSelectedNumber = number1;
+			}
+			else if (evt.getActionCommand().equals("second")) {
+				num1 = Integer.parseInt(number2.getText());
+				firstSelectedNumber = number2;
+			}
+			else if (evt.getActionCommand().equals("third")) {
+				num1 = Integer.parseInt(number3.getText());
+				firstSelectedNumber = number3;
+			}
+			else if (evt.getActionCommand().equals("fourth")) {
+				num1 = Integer.parseInt(number4.getText());
+				firstSelectedNumber = number4;
+			}
+			else if (evt.getActionCommand().equals("fifth")) {
+				num1 = Integer.parseInt(number5.getText());
+				firstSelectedNumber = number5;
+			}
+			else if (evt.getActionCommand().equals("sixth")) {
+				num1 = Integer.parseInt(number6.getText());
+				firstSelectedNumber = number6;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Please select a number first!");
+				buttonsPressed = 0;
+			}
+		}
+		if (buttonsPressed == 2) {
+			if (evt.getActionCommand().equals("add")) {
+				operation = "add";
+			}
+			else if (evt.getActionCommand().equals("subtract")) {
+				operation = "subtract";
+			}
+			else if (evt.getActionCommand().equals("multiply")) {
+				operation = "multiply";
+			}
+			else if (evt.getActionCommand().equals("divide")) {
+				operation = "divide";
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Please select an operation!");
+				buttonsPressed--;
+			}
+		}
+		if (buttonsPressed == 3) {
+			if (evt.getActionCommand().equals("first")) {
+				num2 = Integer.parseInt(number1.getText());
+				secondSelectedNumber = number1;
+			}
+			else if (evt.getActionCommand().equals("second")) {
+				num2 = Integer.parseInt(number2.getText());
+				secondSelectedNumber = number2;
+			}
+			else if (evt.getActionCommand().equals("third")) {
+				num2 = Integer.parseInt(number3.getText());
+				secondSelectedNumber = number3;
+			}
+			else if (evt.getActionCommand().equals("fourth")) {
+				num2 = Integer.parseInt(number4.getText());
+				secondSelectedNumber = number4;
+			}
+			else if (evt.getActionCommand().equals("fifth")) {
+				num2 = Integer.parseInt(number5.getText());
+				secondSelectedNumber = number5;
+			}
+			else if (evt.getActionCommand().equals("sixth")) {
+				num2 = Integer.parseInt(number6.getText());
+				secondSelectedNumber = number6;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Please select a number!");
+				buttonsPressed--;
+			}
+			if (secondSelectedNumber.equals(firstSelectedNumber)) {
+				JOptionPane.showMessageDialog(null, "Please don't select the same number twice!");
+				buttonsPressed--;
+			}
+			// calculate(); // perform the calculation & change the buttons that were selected to one cleared, one with the result
+		}
 	}
+	
+	/**
+	 * Method that resets the board
+	 */
+	public void reset() {
+		target = randomCombo[6];
+		for (int i = 0; i < 6; i++) {
+			sixDigits[i] = randomCombo[i];
+		}
+		num1 = 0;
+		num2 = 0;
+	}
+	
+	/**
+	 * Helper method that gets a random line from the digits archive and initializes the 6 numbers and target number.
+	 */
+	private void initializeNumbers() {
+		ArrayList<int[]> allNums = processFile("digitsArchive");
+		randomCombo = allNums.get((int)(Math.random()*allNums.size()));
+		sixDigits = new int[6];
+		target = randomCombo[6];
+		for (int i = 0; i < 6; i++) {
+			sixDigits[i] = randomCombo[i];
+		}
+	}
+	
+	/**
+	 * Helper method that processes a file and returns it in an ArrayList of int arrays
+	 * @param filename - name of file processed
+	 * @return ArrayList of int arrays
+	 */
+	private ArrayList<int[]> processFile(String filename) {
+        ArrayList<int[]> arrays = new ArrayList<int[]>();
+
+        try {
+            // Create a Scanner to read from the file
+            Scanner scanner = new Scanner(new File(filename));
+
+            // Process each line until the end of the file
+            while (scanner.hasNextLine()) {
+                // Read one line from the file
+                String line = scanner.nextLine();
+
+                // Split the line into individual components
+                String[] components = line.split(",");
+
+                // Convert components to integers and store in an array
+                int[] values = new int[components.length];
+                for (int i = 0; i < components.length; i++) {
+                    values[i] = Integer.parseInt(components[i].trim());
+                }
+
+                // Add the array to the collection
+                arrays.add(values);
+            }
+
+            // Close the scanner
+            scanner.close();
+            
+        } catch (Exception e) {
+           return null;
+        }
+
+        return arrays;
+    }
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
