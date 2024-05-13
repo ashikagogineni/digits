@@ -1,6 +1,5 @@
-package digits;
-import javax.swing.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -26,12 +25,11 @@ public class DigitsGUI extends JFrame implements ActionListener {
 	private int target;
 	
 	private int num1, num2; // 2 selected buttons that need to be added/subtracted/multiplied/divided
-	private String operation = ""; // button pressed to determine operation for the numbers
+	private String operation; // button pressed to determine operation for the numbers
 	private int buttonsPressed = 0; // variable used to store the numbers of buttons pressed, the calculation happens when 3 are pressed
 	private JButton firstSelectedNumber, secondSelectedNumber; // keep track of which buttons were pressed so their values can be changed
 	
 	public DigitsGUI() {
-		
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
@@ -107,7 +105,6 @@ public class DigitsGUI extends JFrame implements ActionListener {
 		add(numberPanel2);
 		add(operationPanel);
 	}
-	
 
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand().equals("reset")) {
@@ -298,19 +295,22 @@ public class DigitsGUI extends JFrame implements ActionListener {
 	 * Method that resets the board
 	 */
 	public void reset() {
-		target = randomCombo[6];
-		for (int i = 0; i < 6; i++) {
-			sixDigits[i] = randomCombo[i];
-		}
+		number1.setText(sixDigits[0] + "");
+		number2.setText(sixDigits[1] + "");
+		number3.setText(sixDigits[2] + "");
+		number4.setText(sixDigits[3] + "");
+		number5.setText(sixDigits[4] + "");
+		number6.setText(sixDigits[5] + "");
 		num1 = 0;
 		num2 = 0;
+		buttonsPressed = -1;
 	}
 	
 	/**
 	 * Helper method that gets a random line from the digits archive and initializes the 6 numbers and target number.
 	 */
 	private void initializeNumbers() {
-		ArrayList<int[]> allNums = processFile("digits archive");
+		ArrayList<int[]> allNums = processFile("digitsArchive");
 		randomCombo = allNums.get((int)(Math.random()*allNums.size()));
 		sixDigits = new int[6];
 		target = randomCombo[6];
@@ -328,7 +328,6 @@ public class DigitsGUI extends JFrame implements ActionListener {
         ArrayList<int[]> arrays = new ArrayList<int[]>();
 
         try {
-     
             // Create a Scanner to read from the file
             Scanner scanner = new Scanner(new File(filename));
 
@@ -348,12 +347,10 @@ public class DigitsGUI extends JFrame implements ActionListener {
 
                 // Add the array to the collection
                 arrays.add(values);
-       
             }
 
             // Close the scanner
             scanner.close();
-     
             
         } catch (Exception e) {
            return null;
@@ -363,7 +360,7 @@ public class DigitsGUI extends JFrame implements ActionListener {
     }
 	
 	public static void main(String[] args) {
-		JFrame test = new DigitsGUI();
+		DigitsGUI test = new DigitsGUI();
 		test.setSize(300,250);
 		test.setVisible(true);
 	}
