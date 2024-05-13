@@ -15,9 +15,8 @@ public class DigitsGUI extends JFrame implements ActionListener {
 	// create 6 buttons with the 6 numbers
 	private JButton number1, number2, number3, number4, number5, number6;
 	private JButton add, subtract, multiply, divide;
-	private JPanel numberPanel;
+	private JPanel numberPanel1, numberPanel2;
 	private JPanel operationPanel;
-	private JPanel bottomPanel;
 	
 	private JButton resetButton;
 	
@@ -85,26 +84,26 @@ public class DigitsGUI extends JFrame implements ActionListener {
 		topPanel.add(text1);
 		topPanel.add(targetNum);
 		
-		numberPanel = new JPanel();
-		numberPanel.add(number1);
-		numberPanel.add(number2);
-		numberPanel.add(number3);
-		numberPanel.add(number4);
-		numberPanel.add(number5);
-		numberPanel.add(number6);
+		numberPanel1 = new JPanel();
+		numberPanel1.add(number1);
+		numberPanel1.add(number2);
+		numberPanel1.add(number3);
+		numberPanel2 = new JPanel();
+		numberPanel2.add(number4);
+		numberPanel2.add(number5);
+		numberPanel2.add(number6);
 		
+		operationPanel = new JPanel();
 		operationPanel.add(add);
 		operationPanel.add(subtract);
 		operationPanel.add(multiply);
 		operationPanel.add(divide);
 		operationPanel.add(resetButton);
 		
-		bottomPanel = new JPanel();
-		bottomPanel.add(numberPanel);
-		bottomPanel.add(operationPanel);
-		
 		add(topPanel);
-		add(bottomPanel);
+		add(numberPanel1);
+		add(numberPanel2);
+		add(operationPanel);
 	}
 
 	public void actionPerformed(ActionEvent evt) {
@@ -114,28 +113,64 @@ public class DigitsGUI extends JFrame implements ActionListener {
 		buttonsPressed++;
 		if (buttonsPressed == 1) {
 			if (evt.getActionCommand().equals("first")) {
-				num1 = Integer.parseInt(number1.getText());
-				firstSelectedNumber = number1;
+				try {
+					num1 = Integer.parseInt(number1.getText());
+					firstSelectedNumber = number1;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("second")) {
-				num1 = Integer.parseInt(number2.getText());
-				firstSelectedNumber = number2;
+				try {
+					num1 = Integer.parseInt(number2.getText());
+					firstSelectedNumber = number2;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("third")) {
-				num1 = Integer.parseInt(number3.getText());
-				firstSelectedNumber = number3;
+				try {
+					num1 = Integer.parseInt(number3.getText());
+					firstSelectedNumber = number3;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("fourth")) {
-				num1 = Integer.parseInt(number4.getText());
-				firstSelectedNumber = number4;
+				try {
+					num1 = Integer.parseInt(number4.getText());
+					firstSelectedNumber = number4;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("fifth")) {
-				num1 = Integer.parseInt(number5.getText());
-				firstSelectedNumber = number5;
+				try {
+					num1 = Integer.parseInt(number5.getText());
+					firstSelectedNumber = number5;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("sixth")) {
-				num1 = Integer.parseInt(number6.getText());
-				firstSelectedNumber = number6;
+				try {
+					num1 = Integer.parseInt(number6.getText());
+					firstSelectedNumber = number6;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Please select a number first!");
@@ -162,38 +197,97 @@ public class DigitsGUI extends JFrame implements ActionListener {
 		}
 		if (buttonsPressed == 3) {
 			if (evt.getActionCommand().equals("first")) {
-				num2 = Integer.parseInt(number1.getText());
-				secondSelectedNumber = number1;
+				try {
+					num2 = Integer.parseInt(number1.getText());
+					secondSelectedNumber = number1;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("second")) {
-				num2 = Integer.parseInt(number2.getText());
-				secondSelectedNumber = number2;
+				try {
+					num2 = Integer.parseInt(number2.getText());
+					secondSelectedNumber = number2;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("third")) {
-				num2 = Integer.parseInt(number3.getText());
-				secondSelectedNumber = number3;
+				try {
+					num2 = Integer.parseInt(number3.getText());
+					secondSelectedNumber = number3;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("fourth")) {
-				num2 = Integer.parseInt(number4.getText());
-				secondSelectedNumber = number4;
+				try {
+					num2 = Integer.parseInt(number4.getText());
+					secondSelectedNumber = number4;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("fifth")) {
-				num2 = Integer.parseInt(number5.getText());
-				secondSelectedNumber = number5;
+				try {
+					num2 = Integer.parseInt(number5.getText());
+					secondSelectedNumber = number5;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else if (evt.getActionCommand().equals("sixth")) {
-				num2 = Integer.parseInt(number6.getText());
-				secondSelectedNumber = number6;
+				try {
+					num2 = Integer.parseInt(number6.getText());
+					secondSelectedNumber = number6;
+				}
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please click a different button");
+					buttonsPressed--;
+				}
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Please select a number!");
 				buttonsPressed--;
 			}
-			if (secondSelectedNumber.equals(firstSelectedNumber)) {
-				JOptionPane.showMessageDialog(null, "Please don't select the same number twice!");
-				buttonsPressed--;
-			}
-			// calculate(); // perform the calculation & change the buttons that were selected to one cleared, one with the result
+			calculate(); 
+			repaint();
+		}
+	}
+	
+	/**
+	 * Method that performs the operation. The first selected button is updated to the calculation result 
+	 * and the second button is cleared. If the target number is reached, a final message is displayed.
+	 */
+	public void calculate() {
+		int result;
+		if (operation.equals("add")) {
+			result = num1 + num2;
+		}
+		else if (operation.equals("subtract")) {
+			result = num1 - num2;
+		}
+		else if (operation.equals("multiply")) {
+			result = num1 * num2;
+		}
+		else {
+			result = num1 / num2;
+		}
+		buttonsPressed = 0;
+		firstSelectedNumber.setText(result + "");
+		secondSelectedNumber.setText("");
+		if (result == target) {
+			JOptionPane.showMessageDialog(null, "Target number reached! Congrats!");
 		}
 	}
 	
@@ -263,8 +357,9 @@ public class DigitsGUI extends JFrame implements ActionListener {
     }
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		DigitsGUI test = new DigitsGUI();
+		test.setSize(300,250);
+		test.setVisible(true);
 	}
 
 }
