@@ -122,6 +122,7 @@ public class DigitsGUI extends JFrame implements ActionListener {
 	/**
 	 * Method that controls what the buttons do
 	 */
+	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand().equals("reset")) {
 			reset();
